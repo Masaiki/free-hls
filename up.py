@@ -1,14 +1,14 @@
 import os
-import re
+# import re
 import shutil
 import time
 import math
 import argparse
-from sys import argv
+# from sys import argv
 from os import getenv as _
 from dotenv import load_dotenv
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from utils import api, exec, execstr, tsfiles, safename, sameparams
+from utils import api, execstr, tsfiles, safename, sameparams
 import importlib
 import base64
 import hashlib
@@ -17,6 +17,7 @@ load_dotenv()
 env = Environment(loader=FileSystemLoader('./web/templates'))
 template = env.get_template('play.html')
 upload_drive = None
+
 
 def md5(s):
     md5 = hashlib.md5(s.encode('utf-8')).hexdigest()
@@ -158,7 +159,7 @@ def main(video_path, video_title, segment_specify, repair=False):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('file', help='File to be sliced')
-    parser.add_argument('--segment','-s', default=None, help='Specify the segement time')
-    parser.add_argument('--title','-t', default=None, help='Title for generating html')
+    parser.add_argument('--segment', '-s', default='', help='Specify the segement time')
+    parser.add_argument('--title', '-t', default='', help='Title for generating html')
     args = parser.parse_args()
     main(args.file, args.title, args.segment)
