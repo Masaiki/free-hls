@@ -1,4 +1,4 @@
-import os, re
+import os, re, random, string
 import shutil
 import requests
 import importlib
@@ -46,18 +46,11 @@ def safename(file):
   return '"' + file.replace('"', '\\"') + '"'
 
 def sameparams(dir, command):
-  if not os.path.isdir(dir):
-    return False
-
-  try:
-    if open('%s/command.sh' % dir, 'r').read() != command:
-      shutil.rmtree(dir)
-      return False
-  except:
-    shutil.rmtree(dir)
-    return False
-
-  return True
+  if os.path.exists('%s/command.sh' % dir):
+    with open('%s/command.sh' % dir, 'r') as f:
+      # print(f.read(),'==',command)
+      return f.read() == command
+  return False
 
 def uploader():
   handle = importlib.import_module('uploader.' + _('UPLOAD_DRIVE')).handle
@@ -68,6 +61,9 @@ def uploader():
 
   return wrapper
 
+
+def randstr(len:int):
+  return ''.join(random.sample(string.ascii_letters + string.digits, len))
 
 
 session = requests.Session()
